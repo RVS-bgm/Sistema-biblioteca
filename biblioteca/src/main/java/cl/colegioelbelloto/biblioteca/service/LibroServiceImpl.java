@@ -21,7 +21,7 @@ public class LibroServiceImpl implements ILibroService{
 
     @Override
     public List<Libro> AllLibros() {
-        return List.of();
+        return libroRepository.findAll();
     }
 
     @Override
@@ -38,4 +38,17 @@ public class LibroServiceImpl implements ILibroService{
     public Libro guardarLibro(Libro libro) {
         return null;
     }
+
+
+    public void deleteLibro(Long idLibro){
+        libroRepository.deleteById(IdLibro);
+
+    }
+    public Libro findByIdLibro(Long id){
+        return libroRepository.findById(id).orElse(null);
+
+    }
+
+
+
 }

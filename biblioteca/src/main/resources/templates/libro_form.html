@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Agregar Libro</h1>
+
+<form th:action="@{/libros/guardar}" th:object="${libro}" method="post" id="libroForm">
+
+    <div th:if="${mensaje}">
+        <p th:text="$(mensaje)"></p>
+    </div>
+    <div th:if="$(error">
+        <p th:text="$(error)"></p>
+    </div>
+    <input type="hidden" name="id" id="id" th:field="*{idLibro}">
+
+
+    <label for="isbn">ISBN</label>
+    <input type="text" name="isbn" id="isbn" placeholder="Ej: 123456789"  th:field="*{isbn}">
+    <br><br>
+    <label for="titulo">TITULO</label>
+    <input type="text" name="titulo" id="titulo" placeholder="ingresar titulo"  th:field="*{titulo}">
+    <br><br>
+    <label for="autor">AUTOR</label>
+    <input type="text" name="autor" id="autor"  th:field="*{autor}">
+    <br><br>
+    <label for="anioPublicacion">AÑO PUBLICACION</label>
+    <input type="number" name="anioPublicacion" id="anioPublicacion"  th:field="*{aniopublicacion}">
+    <br><br>
+    <label for="stock">STOCK: </label>
+    <input type="number" name="stock" id="stock"  th:field="*{stock}">
+    <br><br>
+    <button type="submit" name="Enviar" id="Enviar">Enviar</button>
+
+
+
+</form>
+
+
+
+
+
+</body>
+</html>
