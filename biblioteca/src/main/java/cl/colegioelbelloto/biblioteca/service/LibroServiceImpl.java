@@ -42,7 +42,7 @@ public class LibroServiceImpl implements ILibroService{
 
 
     public void deleteLibro(Long idLibro){
-        libroRepository.deleteById(IdLibro);
+        libroRepository.deleteById(idLibro);
 
     }
     public Libro findByIdLibro(Long id){
