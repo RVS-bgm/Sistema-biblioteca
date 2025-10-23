@@ -30,7 +30,8 @@ public class LibroServiceImpl implements ILibroService{
     }
 
     @Override
-    public void eliminarLibro(Long id) {
+    public void eliminarLibro(Long idLibro) {
+        libroRepository.deleteById(idLibro);
 
     }
 

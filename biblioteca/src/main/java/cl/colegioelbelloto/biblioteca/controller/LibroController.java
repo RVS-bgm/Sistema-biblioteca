@@ -21,7 +21,7 @@ public class LibroController {
 
     {
         try {
-            LibroServiceImpl;
+            LibroService.saveLibro(libro);
             model.addAttribute("mensaje", "libro guardado exitosamente");
             model.addAttribute("libro", new Libro());
             return "libro_form";
