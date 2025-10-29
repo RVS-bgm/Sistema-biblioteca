@@ -50,6 +50,18 @@ public class LibroServiceImpl implements ILibroService{
 
     }
 
-
-
+public Libro updateLibro(Long idLibro, Libro libroActualizado){
+        return libroRepository.findById(idLibro)
+                .map(libroExistente -> {
+                    libroExistente.setTitulo(libroActualizado.getTitulo());
+                    libroExistente.setAutor(libroActualizado.getAutor());
+                    libroExistente.setIsbn(libroActualizado.getIsbn());
+                    libroExistente.setAnioPublicacion((libroActualizado.getAnioPublicacion()));
+                    libroExistente.setStock(libroActualizado.getStock());
+                    return libroRepository.save(libroExistente);
+                })
+                .orElse(null);
+                }
 }
+
+

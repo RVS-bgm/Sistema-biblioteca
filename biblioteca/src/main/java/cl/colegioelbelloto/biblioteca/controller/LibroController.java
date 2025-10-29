@@ -6,10 +6,7 @@ import cl.colegioelbelloto.biblioteca.service.LibroServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,9 +19,7 @@ public class LibroController {
     GoogleBookService googleBookService;
 
     @PostMapping("/guardar")
-    public String guardarLibro(@ModelAttribute Libro libro, Model model)
-
-    {
+    public String guardarLibro(@ModelAttribute Libro libro, Model model) {
         try {
             googleBookService.buscarPorIsbn(libro.getIsbn());
             libroService.saveLibro(libro);
@@ -32,7 +27,7 @@ public class LibroController {
             model.addAttribute("libro", new Libro());
             return "libro_form";
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             model.addAttribute("error", "Error al guardar " + e.getMessage());
             return "libro_form";
         }
@@ -40,22 +35,54 @@ public class LibroController {
     }
 
     @GetMapping("/nuevo")
-    public String mostrarFormulario(Model model){
+    public String mostrarFormulario(Model model) {
         model.addAttribute("libro", new Libro());
         return "Libro_form";
     }
 
-    @GetMapping("/nuevo")
-    public String mostrarFormulario(Model model){
-        model.addAttribute("libro", new Libro());
-        return "Libro_form";
-    }
     @GetMapping("/lista")
-    public String listarLibros(Model model){
+    public String listarLibros(Model model) {
         List<Libro> libros = libroService.AllLibros();
         model.addAttribute("Libros", libros);
         return "Lista-libros";
     }
+
+    @GetMapping("/buscar")
+    public String buscarPorIsbn(@RequestParam String isbn, Model model) {
+        Libro libro = googleBookService.buscarPorIsbn(isbn);
+        if (libro == null) {
+            model.addAttribute("error", "no se encontró información para el ISBN" + isbn);
+            model.addAttribute(new Libro());
+        } else {
+            model.addAttribute("libro", libro);
+        }
+        return "libro_form";
+
+    }
+
+    //http://localhost:8080/Libros/eliminar/1
+    @GetMapping("/eliminar/{id}")
+    public String eliminarLibro(@PathVariable Long id, Model model){
+        libroService.deleteLibro(id);
+        return "redirect:/Libros/Lista";
+    }
+
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model){
+        Libro libro = libroService.findByIdLibro(id);
+        model.addAttribute("libro", libro);
+        return "libro_form";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String actualizarLibro(@PathVariable Long id, @ModelAttribute Libro libro){
+        libroService.updateLibro(id, libro);
+        return "redirect:/libros/lista";
+
+    }
+
+
+
+
 
 
 }
